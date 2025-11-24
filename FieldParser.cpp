@@ -1,13 +1,13 @@
 //--------------------------------------------------------------------
 //  FieldParser.cpp
 //	11/2/2025.				created.
-//  11/2/2025.				last modified.
+//  11/16/2025.				last modified.
 //--------------------------------------------------------------------
 #include "FieldParser.h"
 
 
 //--------------------------------------------------------------------
-auto FieldParser::field_parser(std::u8string const& raw_string) noexcept -> std::pair<std::optional<CommandFields>, ErrorMsgs>
+auto parser::details::FieldParser::field_parser(std::u8string const& raw_string) noexcept -> std::pair<std::optional<CommandFields>, ErrorMsgs>
 {
 	_fields.clear();
 	_error_msgs.clear();
@@ -29,9 +29,9 @@ auto FieldParser::field_parser(std::u8string const& raw_string) noexcept -> std:
 	return { _fields, _error_msgs };
 }
 
-// "Version:3:1.0\r\nCommand:7:compile\r\nUserID:4:1534\r\nReqID:18:153420051016100725\r\n"
+
 //--------------------------------------------------------------------
-auto FieldParser::get_field(std::u8string const& raw_string, size_t const prev_index) noexcept -> std::optional<std::tuple<FieldName, FieldValue, size_t>>
+auto parser::details::FieldParser::get_field(std::u8string const& raw_string, size_t const prev_index) noexcept -> std::optional<std::tuple<FieldName, FieldValue, size_t>>
 {
 	auto p1 = raw_string.find(u8':', prev_index);
 	if (p1 == std::u8string::npos)
@@ -59,7 +59,6 @@ auto FieldParser::get_field(std::u8string const& raw_string, size_t const prev_i
 		return std::nullopt;
 	}
 
-	// Command:7:compile\r\n
 	size_t vlen = 0;
 	{                                                 // 9 - 8 = 1 
 		std::u8string digits = raw_string.substr(p1 + 1, p2 - (p1 + 1));
@@ -87,9 +86,7 @@ auto FieldParser::get_field(std::u8string const& raw_string, size_t const prev_i
 		return std::nullopt;
 	}
 
-	// ....Command:7:compile\r\n
-
-	// prev_index 是上个字段 \r\n 的起点
+	// prev_index 是“当前字段的行首”
 	FieldName name = raw_string.substr(prev_index, p1 - prev_index);
 	FieldValue value = raw_string.substr(p2 + 1, p3 - (p2 + 1));
 
@@ -99,7 +96,6 @@ auto FieldParser::get_field(std::u8string const& raw_string, size_t const prev_i
 		return std::nullopt;
 	}
 
-    // Command:7 : compile\r\n
 	return std::tuple<FieldName, FieldValue, size_t>{ name, value, p3 + 2 };
 }
 

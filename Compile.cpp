@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------
 //  compile.cpp
 //	11/1/2025.				created.
-//  11/1/2025.				last modified.
+//  11/16/2025.				last modified.
 //--------------------------------------------------------------------
 #include "Compile.h"
 
 
 //--------------------------------------------------------------------
-std::tuple<CommandFields, CompileParser::ErrorMsgs, CompileParser::WarnMsgs>
-	CompileParser::special_check(CommandFields const& parsered_fields, std::vector<std::u8string> compile_need_fields) noexcept
+std::tuple<parser::details::CommandFields, parser::details::CompileParser::ErrorMsgs, parser::details::CompileParser::WarnMsgs>
+	parser::details::CompileParser::special_check(CommandFields const& parsered_fields, std::vector<std::u8string> compile_need_fields) noexcept
 {
 	FieldSpec const& fs = CompileParser::compile_spec_field(compile_need_fields);
 	Report report = fs.check_presence(parsered_fields);
@@ -18,7 +18,7 @@ std::tuple<CommandFields, CompileParser::ErrorMsgs, CompileParser::WarnMsgs>
 
 
 //--------------------------------------------------------------------
-const FieldSpec& CompileParser::compile_spec_field(std::vector<std::u8string> compile_fields) noexcept
+const parser::details::FieldSpec& parser::details::CompileParser::compile_spec_field(std::vector<std::u8string> compile_fields) noexcept
 {
 	static const FieldSpec fs = FieldSpec::init_field_spec(compile_fields);
 	return fs;

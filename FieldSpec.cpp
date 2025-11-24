@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------
 //  FieldSpec.cpp
 //	11/2/2025.				created.
-//  11/2/2025.				last modified.
+//  11/16/2025.				last modified.
 //--------------------------------------------------------------------
 #include "FieldSpec.h"
 
@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------
 // 增加一个字段
 //--------------------------------------------------------------------
-void FieldSpec::add_field(std::u8string name)
+void parser::details::FieldSpec::add_field(std::u8string name)
 {
     _fs_fields.insert(std::move(name));
 }
@@ -18,10 +18,10 @@ void FieldSpec::add_field(std::u8string name)
 //--------------------------------------------------------------------
 // 初始化 FieldSpec
 //--------------------------------------------------------------------
-FieldSpec FieldSpec::init_field_spec(std::vector<std::u8string> fields) noexcept
+parser::details::FieldSpec parser::details::FieldSpec::init_field_spec(std::vector<std::u8string> fields) noexcept
 {
     FieldSpec fs;
-    for (auto field : fields)
+    for (auto const& field : fields)
     {
         fs.add_field(field);
     }
@@ -32,7 +32,7 @@ FieldSpec FieldSpec::init_field_spec(std::vector<std::u8string> fields) noexcept
 //--------------------------------------------------------------------
 // 删除一个字段
 //--------------------------------------------------------------------
-void FieldSpec::del_field(std::u8string name)
+void parser::details::FieldSpec::del_field(std::u8string name)
 {
     _fs_fields.erase(name);
 }
@@ -41,7 +41,7 @@ void FieldSpec::del_field(std::u8string name)
 //--------------------------------------------------------------------
 // 检查字段是否正确
 //--------------------------------------------------------------------
-Report FieldSpec::check_presence(const CommandFields& fields, bool is_shared) const
+parser::details::Report parser::details::FieldSpec::check_presence(const CommandFields& fields, bool is_shared) const
 {
     Report rep;
 

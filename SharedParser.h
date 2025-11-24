@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------
 //  SharedParser.h
 //	10/17/2025.				created.
-//  11/1/2025.				last modified.
+//  11/16/2025.				last modified.
 //--------------------------------------------------------------------
 #ifndef _SHARED_PARSER_H__
 #define _SHARED_PARSER_H__
@@ -14,19 +14,22 @@
 #include "FieldSpec.h"
 
 
-//--------------------------------------------------------------------
-class SharedParser
+namespace parser::details
 {
 	//--------------------------------------------------------------------
-	using ErrorMsgs = std::vector<std::u8string>;
-	using WarnMsgs = std::vector<std::u8string>;
-public:
-	//--------------------------------------------------------------------
-	static std::tuple<CommandFields, ErrorMsgs, WarnMsgs> shared_check(CommandFields const& fields) noexcept;
+	class SharedParser
+	{
+		//--------------------------------------------------------------------
+		using ErrorMsgs = std::vector<std::u8string>;
+		using WarnMsgs = std::vector<std::u8string>;
+	public:
+		//--------------------------------------------------------------------
+		static std::tuple<CommandFields, ErrorMsgs, WarnMsgs> shared_check(CommandFields const& fields) noexcept;
 
-private:
-	static const FieldSpec& shared_field();
-};
+	private:
+		static const FieldSpec& shared_field();
+	};
+}
 
 
 #endif // !_SHARED_PARSER_H__
